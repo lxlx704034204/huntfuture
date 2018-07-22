@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="hf-backend" />
+        <module name="hf-backend-web" />
+        <module name="hf-business-service" />
+        <module name="hf-common" />
+        <module name="hf-manager-service" />
+        <module name="hf-platform" />
+        <module name="hf-platform-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="hf-backend" target="1.8" />
+      <module name="hf-backend-web" target="1.8" />
+      <module name="hf-base" target="1.8" />
+      <module name="hf-business-service" target="1.8" />
+      <module name="hf-common" target="1.8" />
+      <module name="hf-component" target="1.8" />
+      <module name="hf-core" target="1.8" />
+      <module name="hf-db" target="1.8" />
+      <module name="hf-manager-service" target="1.8" />
+      <module name="hf-platform" target="1.8" />
+      <module name="hf-platform-web" target="1.8" />
+      <module name="hf-web" target="1.8" />
+      <module name="huntfuture" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
