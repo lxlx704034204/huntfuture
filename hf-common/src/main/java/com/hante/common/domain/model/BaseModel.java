@@ -34,7 +34,7 @@ public class BaseModel implements Serializable {
      * 更新时间
      */
     @LastModifiedDate
-    @Column(name = "update_at", nullable = false)
+    @Column(name = "update_at")
     private Date updateAt;
 
     /**

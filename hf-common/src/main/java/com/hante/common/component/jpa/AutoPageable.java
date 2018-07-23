@@ -17,6 +17,6 @@ public @interface AutoPageable {
     String fieldName() default "";
 
     //该数值越低，排序优先级越高
-    int order() default 0;
+    int order() default 999999;
 
 }

@@ -41,4 +41,9 @@ public class SysAccount extends BaseModel {
     @Column(name = "safe_phone", columnDefinition = "char(11)", nullable = false)
     private String safePhone;
 
+    /**
+     * 角色id
+     */
+    @Column(name = "role_id", columnDefinition = "char(32)", nullable = false)
+    private String roleId = "";
 }
