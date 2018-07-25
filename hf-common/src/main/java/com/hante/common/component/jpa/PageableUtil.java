@@ -5,71 +5,33 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * JPA自动分页
  */
 public class PageableUtil {
 
+    /**
+     * 获取JPA分页的注入参数
+     *
+     * @param query 前台传入的对象，BaseQuery的子类
+     * @return PageRequest
+     */
     public static PageRequest getPageRequest(BaseQuery query) {
-        Field[] fields = query.getClass().getDeclaredFields();
-        String fieldName;
-        List<SortCondition> conditions = new ArrayList<>();
-        for (Field field : fields) {
-            if (field.isAnnotationPresent(AutoPageable.class)) {
-                AutoPageable autoPageable = field.getAnnotation(AutoPageable.class);
-                fieldName = autoPageable.fieldName().equals("") ? field.getName() : autoPageable.fieldName();
-                SortCondition condition = new SortCondition(fieldName, autoPageable.direction(),autoPageable.order());
-                conditions.add(condition);
-            }
-        }
-        if(conditions.isEmpty()){
+        List<AutoPageable> pageableList = Arrays.asList(query.getClass().getDeclaredFields()).parallelStream()
+                .filter(field -> field.isAnnotationPresent(AutoPageable.class))
+                .map(field -> field.getAnnotation(AutoPageable.class))
+                .sorted(Comparator.comparing(AutoPageable::order)).collect(toList());
+        //如果没有@AutoPageable注解，就不设置排序条件
+        if (pageableList.isEmpty()) {
             return new PageRequest(query.getPageNumber(), query.getPageSize());
         }
-        //按照排列优先级对条件集合先进行排序
-        Collections.sort(conditions);
-        List<Sort.Order> orders = new ArrayList<>();
-        for(SortCondition condition : conditions){
-            Sort.Order order = new Sort.Order(condition.direction,condition.fieldName);
-            orders.add(order);
-        }
+        //按照排序完的注解生成排序条件
+        List<Sort.Order> orders = pageableList.parallelStream()
+                .map(autoPageable -> new Sort.Order(autoPageable.direction(), autoPageable.fieldName())).collect(toList());
         return new PageRequest(query.getPageNumber(), query.getPageSize(), new Sort(orders));
-    }
-
-    public static class SortCondition implements Comparable<SortCondition> {
-        /**
-         * 排序字段名
-         */
-        private String fieldName;
-        /**
-         * 排序顺序
-         */
-        private Sort.Direction direction;
-        /**
-         * 条件优先级
-         *
-         * @see AutoPageable
-         */
-        private int order;
-
-        public SortCondition() {
-        }
-
-        public SortCondition(String fieldName, Sort.Direction direction, int order) {
-            this.fieldName = fieldName;
-            this.direction = direction;
-            this.order = order;
-        }
-
-        /**
-         * 由order从低到高排序
-         */
-        @Override
-        public int compareTo(SortCondition o) {
-            return this.order - o.order;
-        }
     }
 }

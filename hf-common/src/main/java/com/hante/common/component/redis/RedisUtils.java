@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -77,6 +78,55 @@ public class RedisUtils {
         ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
         result = operations.get(key);
         return result;
+    }
+
+    /**
+     * 哈希 添加(永久)
+     *
+     * @param key 大key
+     * @param hashKey 小key
+     * @param value 要存储的值
+     */
+    public void hmSet(String key, Object hashKey, Object value) {
+        HashOperations<String, Object, Object> hash = stringRedisTemplate.opsForHash();
+        hash.put(key, hashKey, value);
+    }
+
+    /**
+     * 哈希 添加
+     *
+     * @param key 大key
+     * @param hashKey 小key
+     * @param value 要存储的值
+     * @param expireTime 存活时间（秒）
+     */
+    public void hmSet(String key, Object hashKey, Object value, Long expireTime) {
+        HashOperations<String, Object, Object> hash = stringRedisTemplate.opsForHash();
+        hash.put(key, hashKey, value);
+        stringRedisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
+    }
+
+    /**
+     * 哈希获取数据
+     *
+     * @param key 大key
+     * @param hashKey 小key
+     * @return 存储的值
+     */
+    public Object hmGet(String key, Object hashKey) {
+        HashOperations<String, Object, Object> hash = stringRedisTemplate.opsForHash();
+        return hash.get(key, hashKey);
+    }
+
+    /**
+     * 哈希 删除(可能存在问题，可以用hmSet覆盖的方法代替)
+     *
+     * @param key 大key
+     * @param hashKey 小key
+     */
+    public void hmDel(String key, Object hashKey) {
+        HashOperations<String, Object, Object> hash = stringRedisTemplate.opsForHash();
+        hash.delete(key, hashKey);
     }
 
     /**

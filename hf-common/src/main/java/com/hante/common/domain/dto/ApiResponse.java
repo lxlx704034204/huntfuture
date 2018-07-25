@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Data
 public class ApiResponse implements Serializable {
 
-    public static final int SUCCESS_CODE = 1000000;
+    public static final int SUCCESS_CODE = 0;
     private int code = SUCCESS_CODE;
     private String msg = "成功";
     private Object data;

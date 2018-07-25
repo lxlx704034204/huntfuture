@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.lang.reflect.Field;
 
-public class Mytest {
+public class LbsTest {
     @Test
     public void test1() {
         Field[] fields = BaseModel.class.getDeclaredFields();
