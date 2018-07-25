@@ -19,6 +19,12 @@
             <artifactId>hf-manager-service</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.hante</groupId>
+            <artifactId>hf-business-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
