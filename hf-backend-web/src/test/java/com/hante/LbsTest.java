@@ -1,5 +1,7 @@
 package com.hante;
 
+import com.hante.common.utils.uuid.UUIDUtil;
+import com.hante.domain.model.SysAccount;
 import com.hante.domain.query.SysAccountQuery;
 import com.hante.service.account.SysAccountService;
 import org.junit.Test;
@@ -16,6 +18,11 @@ public class LbsTest {
 
     @Test
     public void accountAutoQuery(){
-        System.out.println(sysAccountService.queryListByExample(new SysAccountQuery()));
+        SysAccountQuery query = new SysAccountQuery();
+        query.setLoginName("lbs");
+        query.setRoleId(UUIDUtil.uuid());
+        query.setPageNumber(1);
+        query.setPageSize(10);
+        System.out.println(sysAccountService.queryListByExample(query));
     }
 }

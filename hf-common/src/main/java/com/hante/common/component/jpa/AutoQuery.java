@@ -14,12 +14,20 @@ public @interface AutoQuery {
         MATCH,
         //模糊查询（% + value + %）
         LIKE,
-        //最小值（可以等于）
-        MIN,
-        //最大值（可以等于）
-        MAX,
         //不能等于
-        DIFFER
+        DIFFER,
+        //最小值(可以等于)
+        MIN_INT,
+        //最大值（可以等于）
+        MAX_INT,
+        //最小值(可以等于)
+        MIN_LONG,
+        //最大值（可以等于）
+        MAX_LONG,
+        //该天00:00:00开始
+        MIN_DATE,
+        //截止到该天23:59:59
+        MAX_DATE;
     }
 
     //查询类型
